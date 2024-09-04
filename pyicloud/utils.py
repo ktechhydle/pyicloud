@@ -9,8 +9,9 @@ from .exceptions import PyiCloudNoStoredPasswordAvailableException
 KEYRING_SYSTEM = "pyicloud://icloud-password"
 
 
-def get_password(username, interactive=sys.stdout.isatty()):
+def get_password(username):
     """Get the password from a username."""
+    interactive = sys.stdout and sys.stdout.isatty()
     try:
         return get_password_from_keyring(username)
     except PyiCloudNoStoredPasswordAvailableException:
@@ -22,7 +23,6 @@ def get_password(username, interactive=sys.stdout.isatty()):
                 username=username,
             )
         )
-
 
 def password_exists_in_keyring(username):
     """Return true if the password of a username exists in the keyring."""
